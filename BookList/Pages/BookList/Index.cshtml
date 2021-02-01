@@ -1,0 +1,93 @@
+﻿@page
+
+@model BookList.Pages.BookList.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container row p-0 m-0">
+
+    <div class="col-9">
+        <h2 class="text-info">Book List</h2>
+    </div>
+
+    <div class="col-3">
+        <a asp-page="CreateBook" class="btn btn-info form-control text-white">Create New Book</a>
+    </div>
+
+    <div class="col-12 border p-3 mt-3">
+        <form method="post">
+            @if (Model.Books.Count() > 0)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().BookName"></label>
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(n => n.Books.FirstOrDefault().BookAuthor)*@
+                            <label asp-for="Books.FirstOrDefault().BookAuthor"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().ISBN"></label>
+                        </th>
+                        <th></th>
+
+                    </tr>
+
+                    @foreach (var book in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(a => book.BookName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(a => book.BookAuthor)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(a => book.ISBN)
+                            </td>
+
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@book.BookId" class="btn btn-success btn-sm text-white">Edit</a>
+                                <button asp-page-handler="Delete" asp-route-id="@book.BookId" onclick="return confirm('This book will be removed. Are you sure?')" class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>Any books cannot be found</p>
+            }
+        </form>
+    </div>
+
+    <div class="col-12" style="text-align:center">
+        <br />
+        <span class="h3 text-info">2.Area</span>
+        <br />
+        <br />
+    </div>
+
+    <div class="col-12 border p-3">
+        <table id="DT_load" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Book Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/BookList.js"></script>
+}
